@@ -21,8 +21,6 @@
 <!-- Bootstrap js -->
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 
-
-		
 <script>
 function msg() {
   alert("刪除成功");
@@ -72,11 +70,11 @@ function msg() {
 						<div class="col-md-10">
 							<div class="form-group">
 								<input type="hidden" name="user" value=<%=user%>>
-								<select class="form-control" name="selectCountry"  id="country" onchange="contry_selected()">
+								<select  class="form-control"  name="selectCountry">
 									<%
 										for (MainBean mainBean : countryData) {
 									%>
-									<option value="<%=mainBean.getISO3166()%>"><%=mainBean.getCountryName()%></option>
+									<option value="<%=mainBean.getISO3166()%>"><%=mainBean.getCountryName()+mainBean.getISO3166()%></option>
 									<%
 										}
 									%>
@@ -107,12 +105,7 @@ function msg() {
 						</div>
 					</div>
 				</form>
-				<div class="row">
-					<div class="col-md-12">
-						<div id="map"></div>
-					</div>
-				</div>
-				</div>
+			</div>
 			<div class="col-md-2">
 				<%if(user!=null){
 			
@@ -160,94 +153,5 @@ function msg() {
 			</div>
 		</div>
 	</div>
-	<script>
-	var clickvalue = {lat: 24.58, lng: 121.11};
-	var markers = [];
-	var map;
-	
-      function initMap() {
-    	  map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 2,
-              center: {lat: 24.58, lng: 121.11},
-    		  maxZoom:5,
-    		  minZoom:2
-            });
-    		
-    		map.addListener('click', function(event) {
-    			getCountry(event.latLng,map);
-            });
-    		
-
-      }
-      function getCountry(location,addrComponents) {
-    	  //alert('zzz');
-    	  //var input = location;
-          //var latlngStr = input.split(',', 2);
-          var latlng = location;
-          map.center=location;
-          var geocoder = new google.maps.Geocoder();
-          geocoder.geocode({'location': latlng}, function(results, status) {
-            if (status === 'OK') {
-              if (results[0]) {
-            	  setMapOnAll(null);
-                var marker = new google.maps.Marker({
-                  position: results[0].geometry.location,
-                  map: map
-                });
-                map.setZoom(5);
-                markers.push(marker);
-                
-                //console.log(results[0]);
-                for (var i=0; i<results[0].address_components.length; i++)
-                    {
-                        if (results[0].address_components[i].types[0] == "country") {
-                                country = results[0].address_components[i].long_name;
-                           }
-                    }
-                alert(country);
-                
-              } else {
-                window.alert('No results found');
-              }
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          });
-    	}
-
-    	
-      function contry_selected(){
-    	  var geocoder = new google.maps.Geocoder();
-    	  geocodeAddress(geocoder, map);
-      }
-      
-  	function setMapOnAll(map) {
-  		for (var i = 0; i < markers.length; i++) {
-  			markers[i].setMap(map);
-  		}
-  	}
-  	function geocodeAddress(geocoder, resultsMap) {
-        
-        var e = document.getElementById ("country");
-        var scountry = e.options [e.selectedIndex] .text;
-        
-        geocoder.geocode({'address': scountry}, function(results, status) {
-          if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            setMapOnAll(null);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-            map.setZoom(5);
-            markers.push(marker);
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
-    </script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb2DMFtUuPNY1mEvvLpAounO5_cLGNpBA&callback=initMap"
-    							async defer></script>
 </body>
 </html>

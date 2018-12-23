@@ -11,34 +11,6 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap js -->
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<script>
-	function validate_insert() {
-		var insert = $("#insert").val();
-		if (insert == null || insert == "") {
-			document.getElementById("insert_label").innerText="此欄不得為空白"; 
-			document.getElementById("insert_label").style.display = 'block';
-			return false;
-		} 
-		else if(insert.length > 200){
-			document.getElementById("insert_label").innerText="最多輸入二十個字元"; 
-			document.getElementById("insert_label").style.display = 'block';
-			return false;
-		}
-	}
-	function validate_update() {
-		var update = $("#update").val();
-		if (update == null || update == "") {
-			document.getElementById("update_label").innerText="此欄不得為空白"; 
-			document.getElementById("update_label").style.display = 'block';
-			return false;
-		} 
-		else if(update.length > 200){
-			document.getElementById("update_label").innerText="最多輸入二十個字元"; 
-			document.getElementById("update_label").style.display = 'block';
-			return false;
-		}
-	}
-</script>
 </head>
 <body>
 
@@ -95,18 +67,17 @@
 					       </div>
 					       <div class="modal-body">
 							<form action="UpdateCommentServlet" method="post"
-								target="message2"  onsubmit="return validate_update()">
+								target="message2">
 								<input type="hidden" name="comment"
 									value=<%=commentbean.getCommentNum()%>>
 								<p>留言內容</p>
-								<textarea class="form-control"  name="UpdateContent" id="update"><%=commentbean.getContent()%></textarea><br />
-								<label id="update_label" style="color:red;display:none;" ></label>
-								<button type="submit" class="btn btn-primary"data-toggle="modal"
-									data-target="#message">修改</button>
+								<textarea class="form-control"  name="UpdateContent"><%=commentbean.getContent()%></textarea>
+								
 							</form>
 							</div>
 							<div class="modal-footer">
-								
+								<button type="submit" class="btn btn-primary"
+									data-toggle="modal" data-target="#message">修改</button>
 					            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					        </div>
 						</div>
@@ -155,16 +126,15 @@
 			         <button type="button" class="close" data-dismiss="modal">&times;</button>
 			       </div>
 			       <div class="modal-body">
-					<form action="NewCommentServlet" method="post" target="message2" onsubmit="return validate_insert()">
+					<form action="NewCommentServlet" method="post" target="message2">
 						<input type="hidden" name="user"value=<%=user%>>
 						<input type="hidden" name="ISO3166"value=<%=ISO3166%>>
-						<textarea class="form-control" name="NewContent"   id="insert" placeholder="請輸入留言內容"></textarea><br />
-						<label id="insert_label" style="color:red;display:none;" ></label>
-						<button type="submit" class="btn btn-primary"  data-toggle="modal"  data-target="#message">新增</button>
+						<textarea class="form-control" name="NewContent" placeholder="請輸入留言內容"></textarea>
+						
 					</form>
 					</div>
 					<div class="modal-footer">
-						
+						<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#message">新增</button>
 			          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			        </div>
 				</div>
